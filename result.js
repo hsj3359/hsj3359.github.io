@@ -78,7 +78,7 @@ document.getElementById("change").onclick = function(){
                 else if(temp[j]=="기"){changeNum = changeNum+1}
                 else if(temp[j]=="신"){newNum = newNum +1}
             }
-            if(temp[j]=="⭕"){
+            if(temp[j]=="⭕️"){
                 console.log('들어왓음')
                 openingNum = openingNum+1
             }
