@@ -76,7 +76,7 @@ document.getElementById("change").onclick = function(){
             if(j==2){
                 if(temp[j].toUpperCase()=="M"){mnpNum = mnpNum+1}
                 else if(temp[j]=="기"){changeNum = changeNum+1}
-                else if(temp[j]=="신"){newNum = newNum +1}
+                else if(temp[j]=="신"||temp[j]=="신규"){newNum = newNum +1}
             }
             if(temp[j]=="⭕️"){
                 console.log('들어왓음')
@@ -101,20 +101,9 @@ document.getElementById("change").onclick = function(){
 
     }
 
-    console.log("개통"+openingNum)
-    console.log("5g"+fiveGNum)
-    console.log("lte"+lteNum)
-    console.log("010" + newNum)
-    console.log("mnp"+mnpNum)
-    console.log("기변"+changeNum)
-    console.log("아15"+iphoneNum)
-    console.log("폴더블"+folderNum)
-    console.log("갤23"+s23Num)
-    console.log("m336"+m336MomNum+"/"+m336Num)
-    console.log("a235"+a235Num)
-    console.log("a245"+a245Num)
-    console.log("")
 
+
+    var oeif = "제주도매센터 출고보고\n\n"
     var temp1 = '개통:'+openingNum+"\n"
     var temp2 = '5g:'+fiveGNum+"\t"+'lte:'+lteNum+"\n"
     var temp3 = '010:'+newNum+'\t mnp:'+mnpNum+"\t 기변:"+changeNum+"\n"
