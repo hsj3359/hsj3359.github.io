@@ -22,10 +22,8 @@ document.getElementById("change").onclick = function(){
     var a245Num=0
     var m120Num = 0
 
-    var proOtherNum = 0
-    var otherNum = 0
-    var ourNum =0
-    var proOurNum = 0
+    var openingFlag = false
+    var fiveFlag = true
 
     for(var i =0; i<data.length; i++){
         var temp = data[i].split('/')
@@ -38,86 +36,100 @@ document.getElementById("change").onclick = function(){
         }
         if(data[i].search('-')>=0){continue;}
         if(data[i]==''){continue;}
-        for(var j =0; j<temp.length; j++){
-            if(j==1){
-                if(temp[j].toUpperCase().search("AIP15")>=0){iphoneNum = iphoneNum+1}
-                else if(temp[j].toUpperCase().search("F731")>=0){folderNum = folderNum+1}
-                else if(temp[j].toUpperCase().search("F946")>=0){folderNum = folderNum+1}
-                else if(temp[j].toUpperCase().search("S911")>=0){s23Num = s23Num+1}
-                else if(temp[j].toUpperCase().search("S916")>=0){s23Num = s23Num+1}
-                else if(temp[j].toUpperCase().search("S918")>=0){s23Num = s23Num+1}
-                else if(temp[j].toUpperCase().search("M336")>=0){
-                    if (temp[j].toUpperCase().search("M336맘")>=0){
-                        m336MomNum = m336MomNum+1
-                    }
-                    else{
-                        m336Num = m336Num+1
-                    }
-                }
-                else if(temp[j].toUpperCase().search("A245")>=0){a245Num = a245Num+1}
-                else if(temp[j].toUpperCase().search("A235")>=0){a235Num = a235Num+1}
-                else if(temp[j].toUpperCase().search("M120")>=0){m120Num = m120Num+1}
-
-
-
-
-                for(var k=0; k<typeLTE.length; k++){
-                   if(temp[j].toUpperCase()==typeLTE[k]){
-                    lteNum= lteNum+1
-                    type = 'lte'
-                    break;
-                   }
-                }
-                if(type==''){fiveGNum = fiveGNum+1}
-                else{type=''}
-                
-            }
-
-            if(j==2){
-                if(temp[j].toUpperCase()=="M"){mnpNum = mnpNum+1}
-                else if(temp[j]=="기"){changeNum = changeNum+1}
-                else if(temp[j]=="신"||temp[j]=="신규"){newNum = newNum +1}
-            }
-            if(temp[j]=="⭕️"){
-                console.log('들어왓음')
-                openingNum = openingNum+1
-            }
-            if(temp[j]=="자사"){
-                if(temp[1].toUpperCase().search("AIP15P")>=0){
-                    proOurNum= proOurNum+1
-                }
-                else{ourNum= ourNum+1}
-            }
-            else if(temp[j]=="타사"){
-                if(temp[1].toUpperCase().search("AIP15P")>=0){
-                    proOtherNum=  proOtherNum+1
-                }
-                else{otherNum= otherNum+1}
-            }
+        if(temp.length<2){
+            continue;
         }
+        for(var j =0; j<temp.length; j++){
+
+        
+            //개통 or 출고
+            if(temp[j]=="⭕️"){
+                openingNum = openingNum+1
+                openingFlag= true
+            }
+
+            if(temp[j].toUpperCase().search("AIP15")>=0){iphoneNum = iphoneNum+1}
+            else if(temp[j].toUpperCase().search("F731")>=0){folderNum = folderNum+1}
+            else if(temp[j].toUpperCase().search("F946")>=0){folderNum = folderNum+1}
+            else if(temp[j].toUpperCase().search("S911")>=0){s23Num = s23Num+1}
+            else if(temp[j].toUpperCase().search("S916")>=0){s23Num = s23Num+1}
+            else if(temp[j].toUpperCase().search("S918")>=0){s23Num = s23Num+1}
+            else if(temp[j].toUpperCase().search("M336")>=0){
+                if (temp[j].toUpperCase().search("M336맘")>=0){
+                    m336MomNum = m336MomNum+1
+                }
+                else{
+                    m336Num = m336Num+1
+                }
+            }
+            else if(temp[j].toUpperCase().search("A245")>=0){a245Num = a245Num+1}
+            else if(temp[j].toUpperCase().search("A235")>=0){a235Num = a235Num+1}
+            else if(temp[j].toUpperCase().search("M120")>=0){m120Num = m120Num+1}
+
+            for(var k=0; k<typeLTE.length; k++){
+               if(temp[j].toUpperCase()==typeLTE[k]){
+                lteNum= lteNum+1
+                fiveFlag = false
+                break;
+               }
+            }
+
+            if(type==''&& fiveFlag){
+                fiveGNum = fiveGNum+1
+                fiveFlag = false
+            }
+            else{type=''}
+             // 개통유형
+             if(temp[j].toUpperCase()=="M"){mnpNum = mnpNum+1}
+             else if(temp[j]=="기"){changeNum = changeNum+1}
+             else if(temp[j]=="신"||temp[j]=="신규"){newNum = newNum +1}
+            
+        }
+        fiveFlag = true
+        if(!openingFlag){
+            releaseNum = releaseNum+1
+            console.log(data[i])
+        }
+        else{openingFlag=false}
+
+
+
+
+        }
+
         
 
 
 
-    }
+
+
+    var left = Number(document.getElementById('target').value) -(openingNum+releaseNum)
+    var a = a235Num+a245Num
+
+
+    var m1 = "제주도매센터 출고보고\n\n"
+    var m2 ='◼ 총량\n'
+    var m3 = '목표/개통/출고/잔여\n'
+    var m4 = document.getElementById('target').value + '/'+openingNum+"/"+releaseNum+"/"+left+"\n\n"
+    var m5 = "◼ 세대별\n"
+    var m6 = "- 5G : "+fiveGNum+" / LTE : "+lteNum+"\n\n"
+    var m7 = "◼ 개통유형별\n"
+    var m8 = "010/MNP/기변\n"
+    var m9 = newNum+"/"+mnpNum+"/"+changeNum+"\n\n"
+    var m10 = "◼ 그외 모델별\n"
+    var m11 ="- 아15류 : "+iphoneNum+"\n"
+    var m12 ="- 폴더블5 : "+folderNum+"\n"
+    var m13 ='- 갤23 : '+s23Num+'\n'
+    var m14 ='- M336(맘) : '+m336Num+'('+m336MomNum+')\n'
+    var m15 ='- A23,45 : '+a+'\n'
+    var m16 ='- M120 : '+m120Num+'\n'
 
 
 
-    var oeif = "제주도매센터 출고보고\n\n"
-    var temp1 = '개통:'+openingNum+"\n"
-    var temp2 = '5g:'+fiveGNum+"\t"+'lte:'+lteNum+"\n"
-    var temp3 = '010:'+newNum+'\t mnp:'+mnpNum+"\t 기변:"+changeNum+"\n"
-    var temp4 = "아15:" + iphoneNum+"\n"
-    var temp5 = "폴더블:" + folderNum+"\n"
-    var temp6 = "갤23:" + s23Num+"\n"
-    var temp7 = "m336:" + m336Num+"\n"
-    var temp8 = "m336맘:" + m336MomNum+"\n"
-    var temp9 = "a235:" + a235Num+"\n"
-    var temp10 = "a245:" + a245Num+"\n"
-    var temp11 = "m120:" + m120Num+"\n"
 
 
-    document.getElementById('result').value = temp1+temp2+temp3+temp4+temp5+temp6+temp7+temp8+temp9+temp10+temp11
+
+    document.getElementById('result').value = m1+m2+m3+m4+m5+m6+m7+m8+m9+m10+m11+m12+m13+m14+m15+m16
 
 
 
