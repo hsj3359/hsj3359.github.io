@@ -1,9 +1,7 @@
 document.getElementById("change").onclick = function(){
     var data = document.getElementById("data").value.split("\n")
     var num = 0
-    var type = ''
-    var typeLTE = ['신비3','A245','A235','A135','M120']
-    var opening = 0
+    var typeLTE = ['신비3','A245','A235','A135','M120','G525']
     var openingNum = 0
     var releaseNum=0
     var lteNum = 0
@@ -23,7 +21,6 @@ document.getElementById("change").onclick = function(){
     var m120Num = 0
 
     var openingFlag = false
-    var fiveFlag = true
 
     for(var i =0; i<data.length; i++){
         var temp = data[i].split('/')
@@ -69,16 +66,9 @@ document.getElementById("change").onclick = function(){
             for(var k=0; k<typeLTE.length; k++){
                if(temp[j].toUpperCase()==typeLTE[k]){
                 lteNum= lteNum+1
-                fiveFlag = false
                 break;
                }
             }
-
-            if(type==''&& fiveFlag){
-                fiveGNum = fiveGNum+1
-                fiveFlag = false
-            }
-            else{type=''}
              // 개통유형
              if(temp[j].toUpperCase()=="M"){mnpNum = mnpNum+1}
              else if(temp[j]=="기"){changeNum = changeNum+1}
@@ -105,7 +95,7 @@ document.getElementById("change").onclick = function(){
 
     var left = Number(document.getElementById('target').value) -(openingNum+releaseNum)
     var a = a235Num+a245Num
-
+    fiveGNum = openingNum+releaseNum-lteNum
 
     var m1 = "제주도매센터 출고보고\n\n"
     var m2 ='◼ 총량\n'
